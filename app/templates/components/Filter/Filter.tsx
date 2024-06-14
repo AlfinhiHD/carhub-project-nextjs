@@ -34,7 +34,6 @@ const Filters = () => {
 
     setParams(updatedParams);
 
-    // Update current params based on updatedParams
     setcurrentMakeParams(
       makeOptions.find((option) => option.value === updatedParams.make) ||
         makeOptions[0]
