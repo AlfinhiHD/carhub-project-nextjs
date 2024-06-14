@@ -9,8 +9,8 @@ const Filters = ({ filters, setFilters }: any) => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-wrap items-center justify-between space-y-4 md:space-y-0">
-      <div className="w-full md:w-auto flex items-center space-x-2 mb-5">
+    <div className="flex flex-wrap justify-between space-y-4 md:space-y-0">
+      <div className="w-full md:w-auto flex items-center space-x-2 mb-3">
         <Image src="/caricon.png" alt="Car Icon" width={24} height={24} className="mr-2" />
         <Select
           isSearchable
@@ -21,21 +21,21 @@ const Filters = ({ filters, setFilters }: any) => {
         />
       </div>
       <div className="flex flex-wrap w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
-        <div className="w-full md:w-60">
+        <div className="w-full md:w-40">
           <Select
             options={yearOptions}
             placeholder="Select Year"
             onChange={(selectedOption) => setFilters({ ...filters, year: selectedOption?.value || '' })}
           />
         </div>
-        <div className="w-full md:w-60">
+        <div className="w-full md:w-40">
           <Select
             options={fuelOptions}
             placeholder="Select Fuel"
             onChange={(selectedOption) => setFilters({ ...filters, fuel: selectedOption?.value || '' })}
           />
         </div>
-        <div className="w-full md:w-60">
+        <div className="w-full md:w-[14rem]">
           <Select
             options={transmissionOptions}
             placeholder="Select Transmission"

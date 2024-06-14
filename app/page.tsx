@@ -12,10 +12,9 @@ import CustomButton from "./templates/elements/Button/Button";
 import { useSearchParams } from "next/navigation";
 
 const Home: React.FC = () => {
+  const make = useSearchParams().get("make");
 
-  const make = useSearchParams().get("make")
-
-  console.log(make)
+  console.log(make);
 
   const [cars, setCars] = useState<CarProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,7 +83,9 @@ const Home: React.FC = () => {
               <Card key={index} car={car} />
             ))}
           </div>
-          <CustomButton buttonType="primary" buttonText="Load More" handleClick={handleLoadMore} />
+          <div className="flex justify-center mt-12">
+            <CustomButton buttonType="primary" buttonText="Load More" handleClick={handleLoadMore} paddingX="px-[1.5rem]" paddingY="py-[0.75rem]" />
+          </div>
         </div>
       )}
     </main>
