@@ -1,22 +1,92 @@
-import React from 'react';
-import Select from 'react-select';
-import Image from 'next/image';
-import { fuelOptions, makeOptions, transmissionOptions, yearOptions } from '@/app/data';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  fuelOptions,
+  makeOptions,
+  transmissionOptions,
+  yearOptions,
+} from "@/app/data";
 
-const Filters = ({ filters, setFilters }: any) => {
+const Filters = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const router = useRouter()
+  const [params, setParams] = useState({});
+  const [currentMakeParams, setcurrentMakeParams] = useState({});
+  const [currentYearParams, setcurrentYearParams] = useState({});
+  const [currentFuelParams, setcurrentFuelParams] = useState({});
+  const [currentTransmissionParams, setcurrentTransmissionParams] = useState({});
+
+  useEffect(() => {
+    const make = searchParams.get("make") || "";
+    const year = Number(searchParams.get("year")) || null;
+    const fuel = searchParams.get("fuel") || "";
+    const transmission = searchParams.get("transmission") || "";
+
+    const updatedParams = {
+      ...(make && { make }),
+      ...(year !== null && { year }),
+      ...(fuel && { fuel }),
+      ...(transmission && { transmission }),
+    };
+
+    setParams(updatedParams);
+
+    // Update current params based on updatedParams
+    setcurrentMakeParams(
+      makeOptions.find((option) => option.value === updatedParams.make) ||
+        makeOptions[0]
+    );
+    setcurrentYearParams(
+      yearOptions.find((option) => option.value === updatedParams.year) ||
+        yearOptions[0]
+    );
+    setcurrentFuelParams(
+      fuelOptions.find((option) => option.value === updatedParams.fuel) ||
+        fuelOptions[0]
+    );
+    setcurrentTransmissionParams(
+      transmissionOptions.find(
+        (option) => option.value === updatedParams.transmission
+      ) || transmissionOptions[0]
+    );
+  }, [searchParams]);
+
+  const handleSelectChange = (type, selectedOption) => {
+    const updatedParams = {
+      ...params,
+      [type]: selectedOption ? selectedOption.value : "",
+    };
+
+    setParams(updatedParams);
+
+    const queryString = Object.keys(updatedParams)
+      .filter((key) => updatedParams[key])
+      .map((key) => `${key}=${updatedParams[key]}`)
+      .join("&");
+
+    router.push(queryString ? `/?${queryString}` : "/");
+  };
 
   return (
     <div className="flex flex-wrap justify-between space-y-4 md:space-y-0">
       <div className="w-full md:w-auto flex items-center space-x-2 mb-3">
-        <Image src="/caricon.png" alt="Car Icon" width={24} height={24} className="mr-2" />
+        <Image
+          src="/caricon.png"
+          alt="Car Icon"
+          width={24}
+          height={24}
+          className="mr-2"
+        />
         <Select
           isSearchable
           options={makeOptions}
-          placeholder="Enter Make"
-          onChange={(selectedOption) => selectedOption.value === "" ? router.push("/") : router.push(`/?make=${selectedOption?.value}`)}
+          value={currentMakeParams}
+          onChange={(selectedOption) =>
+            handleSelectChange("make", selectedOption)
+          }
           className="w-full md:w-80"
         />
       </div>
@@ -24,22 +94,28 @@ const Filters = ({ filters, setFilters }: any) => {
         <div className="w-full md:w-40">
           <Select
             options={yearOptions}
-            placeholder="Select Year"
-            onChange={(selectedOption) => setFilters({ ...filters, year: selectedOption?.value || '' })}
+            value={currentYearParams}
+            onChange={(selectedOption) =>
+              handleSelectChange("year", selectedOption)
+            }
           />
         </div>
         <div className="w-full md:w-40">
           <Select
             options={fuelOptions}
-            placeholder="Select Fuel"
-            onChange={(selectedOption) => setFilters({ ...filters, fuel: selectedOption?.value || '' })}
+            value={currentFuelParams}
+            onChange={(selectedOption) =>
+              handleSelectChange("fuel", selectedOption)
+            }
           />
         </div>
         <div className="w-full md:w-[14rem]">
           <Select
             options={transmissionOptions}
-            placeholder="Select Transmission"
-            onChange={(selectedOption) => setFilters({ ...filters, transmission: selectedOption?.value || '' })}
+            value={currentTransmissionParams}
+            onChange={(selectedOption) =>
+              handleSelectChange("transmission", selectedOption)
+            }
           />
         </div>
       </div>

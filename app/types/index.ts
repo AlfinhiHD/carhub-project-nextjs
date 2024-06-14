@@ -22,6 +22,7 @@ export interface FilterProps {
   model?: string;
   year?: number;
   transmission?: string;
+  make?:string
 }
 
 export interface ButtonProps {

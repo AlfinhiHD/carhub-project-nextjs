@@ -41,7 +41,7 @@ export const makeOptions = [
 ];
 
 export const yearOptions = [
-  { value: 2022, label: "All Years" },
+  { value: "", label: "All Years" },
   { value: 2015, label: "2015" },
   { value: 2016, label: "2016" },
   { value: 2017, label: "2017" },

@@ -2,9 +2,9 @@ import { CarProps, FilterProps } from "@/app/types";
 const keyImaginStudio = "hrjavascript-mastery";
 
 export async function fetchCars(filters: FilterProps) {
-  const { fuel, limit, manufacturer, transmission, year } = filters;
+  const { fuel, limit, make, transmission, year } = filters;
 
-  const url = `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&transmission=${transmission}&limit=${limit}&fuel_type=${fuel}`;
+  const url = `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${make}&year=${year}&transmission=${transmission}&limit=${limit}&fuel_type=${fuel}`;
   const headers = {
     "X-RapidAPI-Key": "fad77145f6mshced00da007709eep14e47djsn9c0f18fb1c72",
     "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
